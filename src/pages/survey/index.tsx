@@ -8,12 +8,16 @@ import {
   DialogContent,
   DialogActions,
   Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Question, Answers } from "./type";
 import { StyledBox, StyledContainer, StyledPaper } from "./styled"; // Importing the styles
 
-const questions: Question[] = [
+const initialQuestions: Question[] = [
   { id: 1, question: "How satisfied are you with our products?", type: "rating", scale: 5 },
   { id: 2, question: "How fair are the prices compared to similar retailers?", type: "rating", scale: 5 },
   { id: 3, question: "How satisfied are you with the value for money of your purchase?", type: "rating", scale: 5 },
@@ -25,6 +29,14 @@ function Survey() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [openDialog, setOpenDialog] = useState<boolean>(false); // State for the confirmation dialog
+  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
+  const [openAddQuestionDialog, setOpenAddQuestionDialog] = useState<boolean>(false);
+  const [newQuestion, setNewQuestion] = useState<Question>({
+    id: questions.length + 1,
+    question: "",
+    type: "text",
+    scale: 5,
+  });
   const navigate = useNavigate();
 
   const currentQuestion: Question = questions[currentQuestionIndex];
@@ -60,6 +72,26 @@ function Survey() {
   const handleSubmit = () => {
     localStorage.setItem("survey_answers", JSON.stringify(answers));
     navigate("/thankyou");
+  };
+
+  const handleAddQuestionClick = () => {
+    setOpenAddQuestionDialog(true);
+  };
+
+  const handleCloseAddQuestionDialog = () => {
+    setOpenAddQuestionDialog(false);
+  };
+
+  const handleAddQuestionSubmit = () => {
+    setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
+    setOpenAddQuestionDialog(false);
+    // Reset new question form
+    setNewQuestion({
+      id: questions.length + 1,
+      question: "",
+      type: "text",
+      scale: 5,
+    });
   };
 
   return (
@@ -163,7 +195,57 @@ function Survey() {
             </Button>
           )}
         </Box>
+
+        <Button
+          onClick={handleAddQuestionClick}
+          variant="outlined"
+          color="secondary"
+          sx={{ mt: "2rem" }}
+        >
+          Add More Question
+        </Button>
       </StyledPaper>
+
+      <Dialog open={openAddQuestionDialog} onClose={handleCloseAddQuestionDialog}>
+        <DialogTitle>Add a New Question</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Question"
+            fullWidth
+            margin="normal"
+            value={newQuestion.question}
+            onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })}
+          />
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Type</InputLabel>
+            <Select
+              value={newQuestion.type}
+              onChange={(e) => setNewQuestion({ ...newQuestion, type: e.target.value })}
+            >
+              <MenuItem value="rating">Rating</MenuItem>
+              <MenuItem value="text">Text</MenuItem>
+            </Select>
+          </FormControl>
+          {newQuestion.type === "rating" && (
+            <TextField
+              label="Scale"
+              type="number"
+              fullWidth
+              margin="normal"
+              value={newQuestion.scale}
+              onChange={(e) => setNewQuestion({ ...newQuestion, scale: parseInt(e.target.value, 10) })}
+            />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAddQuestionDialog} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleAddQuestionSubmit} color="primary" variant="contained">
+            Add Question
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Dialog open={openDialog} onClose={handleCloseConfirmation}>
         <DialogTitle>Confirm Your Answers</DialogTitle>

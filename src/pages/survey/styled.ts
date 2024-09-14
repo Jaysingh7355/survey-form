@@ -18,7 +18,7 @@ export const StyledContainer = styled(Container)({
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "#bdd1f2", // Background color
-  
+  padding: "1rem",
 });
 
 // Styled Paper component
