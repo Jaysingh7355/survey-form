@@ -14,7 +14,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Question, Answers } from "./type";
+import { Question, Answers, QuestionType } from "./type";
 import { StyledBox, StyledContainer, StyledPaper } from "./styled"; // Importing the styles
 
 const initialQuestions: Question[] = [
@@ -34,7 +34,7 @@ function Survey() {
   const [newQuestion, setNewQuestion] = useState<Question>({
     id: questions.length + 1,
     question: "",
-    type: "text",
+    type: "text", // Default type is 'text'
     scale: 5,
   });
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ function Survey() {
     setNewQuestion({
       id: questions.length + 1,
       question: "",
-      type: "text",
+      type: "text", // Reset to default type
       scale: 5,
     });
   };
@@ -220,7 +220,9 @@ function Survey() {
             <InputLabel>Type</InputLabel>
             <Select
               value={newQuestion.type}
-              onChange={(e) => setNewQuestion({ ...newQuestion, type: e.target.value })}
+              onChange={(e) =>
+                setNewQuestion({ ...newQuestion, type: e.target.value as QuestionType })
+              }
             >
               <MenuItem value="rating">Rating</MenuItem>
               <MenuItem value="text">Text</MenuItem>
