@@ -10,24 +10,25 @@ export const StyledBox = styled(Box)({
   flexWrap: "wrap",
 });
 
-// Styled Container component
+// Styled Container component with full width
 export const StyledContainer = styled(Container)({
-  width: "100vw",
   height: "100vh",
+  width: "100vw",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "#bdd1f2", // Fixed to `backgroundColor`
-  padding: "1rem",
+  backgroundColor: "#bdd1f2", // Background color
+  
 });
 
 // Styled Paper component
 export const StyledPaper = styled(Paper)({
-  backgroundColor: "#F5F5F5", // Fixed to `backgroundColor`
+  backgroundColor: "#F5F5F5",
   padding: "2rem",
   width: "100%",
-  maxWidth: "900px", // Responsive widths can be handled directly in component
+  maxWidth: "900px", // Maximum width for Paper (will center itself inside the full-width container)
   minHeight: "auto",
   textAlign: "center",
   borderRadius: "3rem",
 });
+

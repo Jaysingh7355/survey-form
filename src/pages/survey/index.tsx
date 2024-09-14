@@ -1,36 +1,23 @@
 import { useState } from "react";
-import { Button, Typography, TextField, Dialog, DialogTitle, DialogContent, DialogActions, Box } from "@mui/material";
+import {
+  Button,
+  Typography,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Box,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Question, Answers } from "./type";
 import { StyledBox, StyledContainer, StyledPaper } from "./styled"; // Importing the styles
 
 const questions: Question[] = [
-  {
-    id: 1,
-    question: "How satisfied are you with our products?",
-    type: "rating",
-    scale: 5,
-  },
-  {
-    id: 2,
-    question: "How fair are the prices compared to similar retailers?",
-    type: "rating",
-    scale: 5,
-  },
-  {
-    id: 3,
-    question:
-      "How satisfied are you with the value for money of your purchase?",
-    type: "rating",
-    scale: 5,
-  },
-  {
-    id: 4,
-    question:
-      "On a scale of 1-10 how would you recommend us to your friends and family?",
-    type: "rating",
-    scale: 10,
-  },
+  { id: 1, question: "How satisfied are you with our products?", type: "rating", scale: 5 },
+  { id: 2, question: "How fair are the prices compared to similar retailers?", type: "rating", scale: 5 },
+  { id: 3, question: "How satisfied are you with the value for money of your purchase?", type: "rating", scale: 5 },
+  { id: 4, question: "On a scale of 1-10 how would you recommend us to your friends and family?", type: "rating", scale: 10 },
   { id: 5, question: "What could we do to improve our service?", type: "text" },
 ];
 
@@ -76,7 +63,7 @@ function Survey() {
   };
 
   return (
-    <StyledContainer>
+    <StyledContainer maxWidth={false} disableGutters>
       <StyledPaper>
         <Typography
           variant="h3"
